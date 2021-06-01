@@ -1,0 +1,55 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js init -y
+
+PATH: 
+  C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files\Python37\Scripts\;C:\Program Files\Python37\;C:\Program Files\Amazon Corretto\jdk11.0.4_10\bin;C:\windows\system32;C:\windows;C:\windows\System32\Wbem;C:\windows\System32\WindowsPowerShell\v1.0\;C:\windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\Git\cmd;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\msys2\bin;C:\Program Files\dotnet\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\150\DTS\Binn\;C:\Program Files (x86)\Microsoft SQL Server\150\DTS\Binn\;C:\Program Files (x86)\Yarn\bin\;C:\Program Files\nodejs\;C:\Users\rodrigo negao\AppData\Local\Microsoft\WindowsApps;C:\Users\rodrigo negao\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\rodrigo negao\AppData\Local\GitHubDesktop\bin;C:\Users\rodrigo negao\Anaconda3\Scripts;C:\Users\rodrigo negao\Anaconda3;C:\Users\rodrigo negao\AppData\Local\Microsoft\WindowsApps;C:\Users\rodrigo negao\AppData\Local\Yarn\bin;C:\Program Files\Docker Toolbox;C:\Users\rodrigo negao\AppData\Roaming\npm
+
+Yarn version: 
+  1.22.4
+
+Node version: 
+  14.16.1
+
+Platform: 
+  win32 x64
+
+Trace: 
+  SyntaxError: C:\Users\rodrigo negao\Desktop\PROJETOS\GROWDEV2\backend-list-api\package.json: Unexpected token } in JSON at position 385
+      at JSON.parse (<anonymous>)
+      at C:\Program Files (x86)\Yarn\lib\cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (C:\Program Files (x86)\Yarn\lib\cli.js:310:30)
+      at C:\Program Files (x86)\Yarn\lib\cli.js:321:13
+
+npm manifest: 
+  {
+    "name": "backend-list-api",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "scripts": {
+      "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+      "debug": "ts-node-dev --inspect --respawn --transpile-only src/index.ts",
+      "build":"tsc",
+      "start": "node ./dist/index.js"
+    },
+    "dependencies": {
+      "cors": "^2.8.5",
+      "express": "^4.17.1",
+    },
+    "devDependencies": {
+      "@types/cors": "^2.8.10",
+      "@types/express": "^4.17.12",
+      "@types/node": "^15.6.1",
+      "nodemon": "^2.0.7",
+      "sucrase": "^3.18.1",
+      "ts-node-dev": "^1.1.6",
+      "typescript": "^4.3.2"
+    }  
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
