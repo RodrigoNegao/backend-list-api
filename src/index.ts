@@ -64,7 +64,7 @@ app.get("/messages", (request: Request, response: Response) => {
   //localhost:3333/users
   //console.log(usersArray);
   return response.json({
-    listArray
+    List: listArray
   });
 });
 
@@ -84,7 +84,7 @@ app.post("/message",
 
   listArray.push(list);
   //console.log(user);
-  return response.status(200).json("Cadastrado da Message com sucesso");
+  return response.status(200).json({msg:"Cadastrado da Message com sucesso"});
 });
 
 // Atualizar um registro específico -- Insominia PUT
@@ -111,7 +111,7 @@ app.put("/message/:item", (request: Request, response: Response) => {
   list.title = title;
   list.detail = detail;
 
-  return response.status(200).json(true);
+  return response.status(200).json({success:true});
 });
 
 // Excluir um user a partir de um ID
@@ -132,7 +132,7 @@ app.delete("/message/:item", (request: Request, response: Response) => {
 
   // const user = listArray.splice(indice, 1);
   listArray.splice(indice, 1);
-  return response.status(200).json({success: true});
+  return response.status(200).json({msg:"delete"});
 });
 
 

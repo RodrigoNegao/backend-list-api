@@ -27,7 +27,7 @@ function validarNome(
   });
 
   if (existe) {
-    return response.status(400).json("Nome já Cadastrado");
+    return response.status(400).json({msg:"Nome já Cadastrado"});
   }
 
   next();
