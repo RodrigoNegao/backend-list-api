@@ -1,10 +1,11 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
 import { IUser } from "./interface/IUser";
-import { validarAge, validarCpf, validarEmail, validarNome, validarTransactions, validarUser } from "./middlewares/md-validar";
-import { usersArray } from "./data";
+import { validarNome,validarPassword } from "./middlewares/md-validar";
+import { usersArray, listArray } from "./data";
 import LoginUser from "./classes/user";
-
+import Message from "./classes/message";
+import { IMessage } from "./interface/IMessage";
 
 const app = express();
 
@@ -19,113 +20,119 @@ app.get("/", (request: Request, response: Response) => {
   return response.send("Pagina Principal");
 });
 
-//POST Criar login
-app.post("/login",validarNome,validarCpf,validarEmail, validarAge,
+//POST Criar login - SignIn
+app.post("/signin",validarNome,validarPassword,
  (request: Request, response: Response) => {
-  //localhost:3333/users
+  //localhost:3000/users
   // {
   //     "name": "Joao",
   //     "passoword":"0000",
   // }
-  const { name, passoword }: IUser = request.body;
+  const { name, password }: IUser = request.body;
 
-  const user = new LoginUser(name, passoword);
-
-  // const existe = usersArray.find((f) => {
-  //   return f.cpf === cpf;
-  // });
-
-  // if (existe) {
-  //   return response.status(400).json("CPF já Cadastrado");
-  // }
+  const user = new LoginUser(name, password);
 
   usersArray.push(user);
   console.log(user);
   return response.status(200).json("Cadastrado com sucesso");
 });
 
-//GET /users/:id
-app.get("/users/:userId",validarUser, (request: Request, response: Response) => {
-  //http://localhost:3333/users/:id"
-  let { userId }: { userId?: string } = request.params;
+//POST Verificar Login
+app.post("/login",
+ (request: Request, response: Response) => {
+  //http://localhost:3000/login"
+  const { name, password }: IUser = request.body;
 
-  const idInt: number = parseInt(userId);
-
-  const user = usersArray.find((f) => f.id === idInt);
-
-  // if (!user) {
-  //   return response.status(404).json({
-  //     msg: "Usuário não encontrado",
-  //   });
-  // }
+  const user = usersArray.find((f) => {
+    if (f.userName === name && f.password === password) return f } );
+  //console.log('log',user);
+  if (!user) {
+    return response.status(404).json({
+      msg: "Usuário e Senha estão errados",
+    });
+  }
 
   //Arrumar a ordem transacions por ultimo
-  const resposta1 = response.json({
-    user,
-  });
-  return response.status(200).json(resposta1);
+  // const resposta1 = response.json({
+  //   user,
+  // });
+  return response.status(200).json(true);
 });
 
 //GET /users
-app.get("/users", (request: Request, response: Response) => {
+app.get("/messages", (request: Request, response: Response) => {
   //localhost:3333/users
   //console.log(usersArray);
-
   return response.json({
-    User: usersArray,
+    listArray
   });
 });
 
-// Atualizar um registro específico -- Insominia PUT
-app.put("/users/:userId", validarUser, (request: Request, response: Response) => {
-  const { userId }: { userId?: string } = request.params;
-  const {
-    name,
-    cpf,
-    email,
-    age,
-  }: { name: string; cpf: string; email: string; age: number } = request.body;
+var item:number = 0;
+//POST Criar Message
+app.post("/message",
+ (request: Request, response: Response) => {
+  //localhost:3000/messages
+  // {
+  //     "title": "Joao",
+  //     "detail":"0000",
+  // }
+  const { title, detail }: IMessage = request.body;
 
-  const idInt: number = parseInt(userId);
+  item += +1;
+  const list = new Message(item,title, detail);
+
+  listArray.push(list);
+  //console.log(user);
+  return response.status(200).json("Cadastrado da Message com sucesso");
+});
+
+// Atualizar um registro específico -- Insominia PUT
+app.put("/message/:item", (request: Request, response: Response) => {
+  const { item }: { item?: string } = request.params;
+  const {
+    title,
+    detail,
+  }: IMessage = request.body;
+
+  const itemInt: number = parseInt(item);
   // encontrar o registro que queremos alterar
-  const user = usersArray.find((f) => {
-    return f.id === idInt;
+  const list = listArray.find((f) => {
+    return f.id === itemInt;
   });
 
-  if (!user) {
+  if (!list) {
     return response.status(404).json({
-      msg: "Usuário não encontrado",
+      msg: "Message não encontrado",
     });
   }
 
   //Não Transpila pq pode estar vazio
-  user.name = name;
-  user.cpf = cpf;
-  user.email = email;
-  user.age = age;
+  list.title = title;
+  list.detail = detail;
 
-  return response.status(200).json(user);
+  return response.status(200).json(true);
 });
 
 // Excluir um user a partir de um ID
-app.delete("/users/:userId", validarUser, (request: Request, response: Response) => {
-  const { userId }: { userId?: string } = request.params;
+app.delete("/message/:item", (request: Request, response: Response) => {
+  const { item }: { item?: string } = request.params;
 
-  const idInt: number = parseInt(userId);
+  const itemInt: number = parseInt(item);
 
-  const indice = usersArray.findIndex((f) => {
-    return f.id === idInt;
+  const indice = listArray.findIndex((f) => {
+    return f.id === itemInt;
   });
 
-  // if (indice === -1) {
-  //   return response.status(404).json({
-  //     msg: "Usuário não encontrado",
-  //   });
-  // }
+  if (indice === -1) {
+    return response.status(404).json({
+      msg: "Item não encontrado",
+    });
+  }
 
-  const user = usersArray.splice(indice, 1);
-
-  return response.status(200).json(user);
+  // const user = listArray.splice(indice, 1);
+  listArray.splice(indice, 1);
+  return response.status(200).json({success: true});
 });
 
 
