@@ -33,8 +33,8 @@ app.post("/signin",validarNome,validarPassword,
   const user = new LoginUser(name, password);
 
   usersArray.push(user);
-  console.log(user);
-  return response.status(200).json("Cadastrado com sucesso");
+  //console.log(user);
+  return response.status(200).json({ msg:"Cadastrado com sucesso"});
 });
 
 //POST Verificar Login
