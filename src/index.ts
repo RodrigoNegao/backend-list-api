@@ -111,7 +111,10 @@ app.put("/message/:item", (request: Request, response: Response) => {
   list.title = title;
   list.detail = detail;
 
-  return response.status(200).json({success:true});
+  return response.status(200).json({
+    success:true,
+    msg:"Mensagem Atualizado com Sucesso"
+  });
 });
 
 // Excluir um user a partir de um ID
